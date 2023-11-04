@@ -59,6 +59,25 @@ async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
 
 [[package]]
+name = "flask-mailman"
+version = "1.0.0"
+description = "Porting Django's email implementation to your Flask applications."
+optional = false
+python-versions = ">=3.7,<4.0"
+files = [
+    {file = "flask_mailman-1.0.0-py3-none-any.whl", hash = "sha256:2e0e9102b03d09430541d70d4e766c0025b41931a55c562df7c9c6f2bfe4cf48"},
+    {file = "flask_mailman-1.0.0.tar.gz", hash = "sha256:68187f8030794a75e7cec7651a0445d1606b0918bbd1c4705b232842789c3808"},
+]
+
+[package.dependencies]
+flask = ">=1.0"
+
+[package.extras]
+dev = ["bump2version", "pip", "pre-commit", "toml", "tox", "twine", "virtualenv"]
+doc = ["mkdocs", "mkdocs-autorefs", "mkdocs-include-markdown-plugin", "mkdocs-material", "mkdocs-material-extensions", "mkdocstrings"]
+test = ["black", "flake8", "isort", "pytest", "pytest-cov"]
+
+[[package]]
 name = "itsdangerous"
 version = "2.1.2"
 description = "Safely pass data to untrusted environments and back."
@@ -175,4 +194,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "65baee09e6dea786baacfc99d03abbbb3b77920ccd242db46cfa6c60d606e7f9"
+content-hash = "24201b3270d2953a833b2a653d7a1431335d4d76b3ec1f02bde048384f0e68a7"
