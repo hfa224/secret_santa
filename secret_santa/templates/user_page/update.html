@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit user info{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="title">Address</label>
+    <input name="address" id="address"
+      value="{{ request.form['address'] or user['address'] }}" required>
+    <label for="body">Dietary info</label>
+    <textarea name="dietary_info" id="dietary_info">{{ request.form['dietary_info'] or user['dietary_info'] }}</textarea>
+    <input type="submit" value="Save">
+  </form>
+  <hr>
+  <form action="{{ url_for('user_page.delete', id=user['id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure? This will delete your account and remove you from the draw.');">
+  </form>
+{% endblock %}

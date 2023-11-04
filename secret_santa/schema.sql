@@ -1,0 +1,20 @@
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS event_info;
+
+CREATE TABLE user (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT UNIQUE NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  isAdmin BOOLEAN DEFAULT False,
+  address TEXT,
+  dietary_info TEXT DEFAULT "None",
+  password TEXT NOT NULL
+);
+
+CREATE TABLE event_info (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  event_date TIMESTAMP NOT NULL,
+  event_description MEDIUMTEXT NOT NULL,
+  title TEXT NOT NULL,
+  body TEXT NOT NULL
+);
