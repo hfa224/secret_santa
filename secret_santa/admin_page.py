@@ -8,19 +8,19 @@ from secret_santa.db import get_db
 from secret_santa.emails import send_email
 
 # no url prefix parameter, so this is the default page
-bp = Blueprint('user_page', __name__)
+bp = Blueprint('admin_page', __name__, url_prefix='/admin')
 
 @bp.route('/')
 def index():
     """
-    This is the view that displays a user their info
+    This is the view that lets an admin add an event
     """
     db = get_db()
-    if (g.user):
-        user_info = get_user(g.user['id'])
+    if (g.user & g.user['isAdmin']):
+        admin_info = get_events(g.user['id'])
     else:
-        user_info = None
-    return render_template('user_page/index.html', user_info=user_info)
+        admin_info = None
+    return render_template('admin_page/index.html', admin_info=admin_info, event_list=None )
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 @login_required
@@ -90,14 +90,12 @@ def get_user(id):
     """
     Get user information given the user id
     """
-    user = get_db().execute(
-        'SELECT u.id, username, email, address, dietary_info'
-        ' FROM user u'
-        ' WHERE u.id = ?',
-        (id,)
-    ).fetchone()
+    event_info = get_db().execute(
+        'SELECT *'
+        ' FROM event_info;'
+    ).fetchall()
 
-    if user is None:
-        abort(404, f"User id {id} doesn't exist.")
+    #if user is None:
+    #    abort(404, f"User id {id} doesn't exist.")
 
-    return user
+    return event_info

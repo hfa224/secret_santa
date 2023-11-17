@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}User info{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    {% if not admin_info %}
+    <a class="action" href="{{ url_for('auth.register') }}">Register</a>
+    {% else  %}
+    <article class="post">
+      <header>
+        <a class="action" href="{{ url_for('admin_page.add_event', id=admin_info['id']) }}">Add event</a>
+      </header>
+      <header>
+        Current events:
+      </header>
+      {% if event_list %}
+        <p class="body">Username: {{ user_info['username'] }}, Email: {{user_info['email']}}, Address: {{user_info['address']}}, Dietary info: {{user_info['dietary_info'] }}</p>
+      {% endif %}
+      </article>
+    {% endif  %}
+{% endblock %}
