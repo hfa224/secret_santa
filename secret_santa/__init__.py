@@ -44,6 +44,9 @@ def create_app(test_config=None):
     
     from . import user_page
     app.register_blueprint(user_page.bp)
+
+    from . import admin_page
+    app.register_blueprint(admin_page.bp)
     
     # the user_page blueprint does not have a url prefix,
     # so it's the main view

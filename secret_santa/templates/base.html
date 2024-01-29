@@ -6,6 +6,13 @@
   <ul>
     {% if g.user %} 
       <li><span>{{ g.user['username'] }}</span>
+        <li><span>{{ g.user['isAdmin'] }}</span>
+      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+        <li><a href="{{ url_for('admin_page.index') }}">Admin page</a>
+    {% elif g.user and g.user['isAdmin'] == "1" %} 
+      <li><span>{{ g.user['username'] }}</span>
+        <li><span>{{ g.user['isAdmin'] }}</span>
+      <li><a href="{{ url_for('admin_page.index') }}">Admin page</a>
       <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
     {% else %}
       <li><a href="{{ url_for('auth.register') }}">Register</a>

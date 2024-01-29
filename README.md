@@ -18,7 +18,7 @@ Use:
 
 flask --app secret_santa init-db
 
-To intialise the database. This will clear any existsing tables and add new ones
+To intialise the database. This will clear any existing tables and add new ones
 
 # To run tests
 

@@ -16,7 +16,8 @@ def index():
     This is the view that lets an admin add an event
     """
     db = get_db()
-    if (g.user & g.user['isAdmin']):
+    if (g.user):
+        # get existing events created by the user
         admin_info = get_events(g.user['id'])
     else:
         admin_info = None
@@ -86,7 +87,7 @@ def send_info(id):
 
     return redirect(url_for('auth.logout'))
 
-def get_user(id):
+def get_events(id):
     """
     Get user information given the user id
     """
@@ -96,6 +97,6 @@ def get_user(id):
     ).fetchall()
 
     #if user is None:
-    #    abort(404, f"User id {id} doesn't exist.")
+    #    abort(404, f"Event id {id} doesn't exist.")
 
     return event_info

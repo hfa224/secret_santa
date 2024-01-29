@@ -5,7 +5,7 @@ CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT UNIQUE NOT NULL,
   email TEXT UNIQUE NOT NULL,
-  isAdmin BOOLEAN DEFAULT False,
+  isAdmin BOOLEAN DEFAULT TRUE,
   address TEXT,
   dietary_info TEXT DEFAULT "None",
   password TEXT NOT NULL
