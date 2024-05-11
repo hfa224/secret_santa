@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block content %}
+  {% if not g.user or not admin_info %}
+  <header>{{ admin_info['id'] }}</header>
+  {% else  %}
     <article class="post">
       <header>
         <a class="action" href="{{ url_for('admin_page.add_event', id=admin_info['id']) }}">Add event</a>
@@ -16,4 +19,5 @@
         <p class="body">Username: {{ user_info['username'] }}, Email: {{user_info['email']}}, Address: {{user_info['address']}}, Dietary info: {{user_info['dietary_info'] }}</p>
       {% endif %}
       </article>
+  {% endif  %}
 {% endblock %}
