@@ -15,6 +15,5 @@ CREATE TABLE event_info (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   event_date TIMESTAMP NOT NULL,
   event_description MEDIUMTEXT NOT NULL,
-  title TEXT NOT NULL,
-  body TEXT NOT NULL
+  cost TEXT NOT NULL
 );

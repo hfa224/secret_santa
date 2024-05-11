@@ -6,10 +6,14 @@
 
 {% block content %}
   <form method="post">
-    <label for="title">Address</label>
+    <label for="title">Event date</label>
     <input name="address" id="address"
       value="{{ request.form['address'] or user['address'] }}" required>
-    <label for="body">Dietary info</label>
+    <label for="body">Event description</label>
+    <textarea name="dietary_info" id="dietary_info">{{ request.form['dietary_info'] or user['dietary_info'] }}</textarea>
+    <label for="body">Price</label>
+    <textarea name="price" id="dietary_info">{{ request.form['dietary_info'] or user['dietary_info'] }}</textarea>
+    <label for="body"></label>
     <textarea name="dietary_info" id="dietary_info">{{ request.form['dietary_info'] or user['dietary_info'] }}</textarea>
     <input type="submit" value="Save">
   </form>

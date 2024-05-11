@@ -1,11 +1,13 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for, current_app
 )
 from werkzeug.exceptions import abort
 
 from secret_santa.auth import login_required
 from secret_santa.db import get_db
 from secret_santa.emails import send_email
+
+from email.message import EmailMessage
 
 # no url prefix parameter, so this is the default page
 bp = Blueprint('user_page', __name__)
@@ -73,8 +75,8 @@ def send_info(id):
 
     msg = EmailMessage()
     msg['Subject'] = 'This is my first Python email'
-    msg['From'] = EMAIL_ADDRESS 
-    msg['To'] = EMAIL_ADDRESS 
+    #msg['From'] = EMAIL_ADDRESS 
+    #msg['To'] = email 
     msg.set_content('Your address is ' + address + 'and your dietary info is ' + dietary_info + '.')
 
     message = """\
@@ -82,9 +84,16 @@ def send_info(id):
 
     This message is sent from Python."""
 
-    send_email(user_email, message)
+    #send_email_defaults(email, message)
+    port = current_app.config['MAIL_PORT']  # For SSL
+    password = current_app.config['MAIL_PASSWORD']
 
-    return redirect(url_for('auth.logout'))
+    print(port)
+    print(password)
+    print(email)
+    send_email(port, password, email, message)
+
+    return render_template('user_page/index.html', user_info=user)
 
 def get_user(id):
     """
