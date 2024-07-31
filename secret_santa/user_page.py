@@ -2,10 +2,10 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for, current_app
 )
 from werkzeug.exceptions import abort
+from flask_mail import Mail, Message
 
 from secret_santa.auth import login_required
 from secret_santa.db import get_db
-from secret_santa.emails import send_email
 
 from email.message import EmailMessage
 
@@ -73,25 +73,20 @@ def send_info(id):
     address = user['address']
     dietary_info = user['dietary_info']
 
-    msg = EmailMessage()
-    msg['Subject'] = 'This is my first Python email'
-    #msg['From'] = EMAIL_ADDRESS 
-    #msg['To'] = email 
-    msg.set_content('Your address is ' + address + 'and your dietary info is ' + dietary_info + '.')
+    
+    mail = Mail(current_app)
 
-    message = """\
-    Subject: Hi " + name  
+    recipient = email
+    msg = Message('Twilio SendGrid Test Email', recipients=[recipient])
+    msg.body = ('Congratulations! You have sent a test email with '
+                'Twilio SendGrid!')
+    msg.html = ('<h1>Twilio SendGrid Test Email</h1>'
+                '<p>Congratulations! You have sent a test email with '
+                '<b>Twilio SendGrid</b>!</p>')
+    mail.send(msg)
+    flash(f'A test message was sent to {recipient}.')
 
-    This message is sent from Python."""
-
-    #send_email_defaults(email, message)
-    port = current_app.config['MAIL_PORT']  # For SSL
-    password = current_app.config['MAIL_PASSWORD']
-
-    print(port)
-    print(password)
     print(email)
-    send_email(port, password, email, message)
 
     return render_template('user_page/index.html', user_info=user)
 
