@@ -14,7 +14,7 @@ from flask_mail import Mail, Message
 
 from secret_santa.auth import login_required
 from secret_santa.db import get_db
-from emails import send_email
+from secret_santa.emails import send_email
 
 # no url prefix parameter, so this is the default page
 bp = Blueprint("user_page", __name__)
@@ -34,11 +34,11 @@ def index():
 
 @bp.route("/<int:id>/update", methods=("GET", "POST"))
 @login_required
-def update(id):
+def update(user_id):
     """
     This is the view where the user can update their user info
     """
-    user = get_user(id)
+    user = get_user(user_id)
 
     if request.method == "POST":
         address = request.form["address"]
@@ -64,8 +64,11 @@ def update(id):
 
 @bp.route("/<int:id>/delete", methods=("POST",))
 @login_required
-def delete(id):
-    get_user(id)
+def delete(user_id):
+    """
+    Deletes the user
+    """
+    get_user(user_id)
     db = get_db()
     db.execute("DELETE FROM user WHERE id = ?", (id,))
     db.commit()
@@ -74,8 +77,11 @@ def delete(id):
 
 @bp.route("/<int:id>/sendinfo", methods=("POST",))
 @login_required
-def send_info(id):
-    user = get_user(id)
+def send_info(user_id):
+    """
+    Sends the user's info to their email address
+    """
+    user = get_user(user_id)
 
     name = user["username"]
     email = user["email"]
@@ -86,7 +92,7 @@ def send_info(id):
 
     recipient = email
     msg = Message("Twilio SendGrid Test Email", recipients=[recipient])
-    msg.body = "Congratulations! You have sent a test email with " "Twilio SendGrid!"
+    msg.body = "Hello" + name + ", your address is " + address + ", and your dietary requirements are " + dietary_info + "."
     msg.html = (
         "<h1>Twilio SendGrid Test Email</h1>"
         "<p>Congratulations! You have sent a test email with "
@@ -100,7 +106,7 @@ def send_info(id):
     return render_template("user_page/index.html", user_info=user)
 
 
-def get_user(id):
+def get_user(user_id):
     """
     Get user information given the user id
     """
@@ -110,12 +116,12 @@ def get_user(id):
             "SELECT u.id, username, email, address, dietary_info"
             " FROM user u"
             " WHERE u.id = ?",
-            (id,),
+            (user_id,),
         )
         .fetchone()
     )
 
     if user is None:
-        abort(404, f"User id {id} doesn't exist.")
+        abort(404, f"User id {user_id} doesn't exist.")
 
     return user
