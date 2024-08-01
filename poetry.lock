@@ -195,25 +195,6 @@ blinker = "*"
 flask = "*"
 
 [[package]]
-name = "flask-mailman"
-version = "1.0.0"
-description = "Porting Django's email implementation to your Flask applications."
-optional = false
-python-versions = ">=3.7,<4.0"
-files = [
-    {file = "flask_mailman-1.0.0-py3-none-any.whl", hash = "sha256:2e0e9102b03d09430541d70d4e766c0025b41931a55c562df7c9c6f2bfe4cf48"},
-    {file = "flask_mailman-1.0.0.tar.gz", hash = "sha256:68187f8030794a75e7cec7651a0445d1606b0918bbd1c4705b232842789c3808"},
-]
-
-[package.dependencies]
-flask = ">=1.0"
-
-[package.extras]
-dev = ["bump2version", "pip", "pre-commit", "toml", "tox", "twine", "virtualenv"]
-doc = ["mkdocs", "mkdocs-autorefs", "mkdocs-include-markdown-plugin", "mkdocs-material", "mkdocs-material-extensions", "mkdocstrings"]
-test = ["black", "flake8", "isort", "pytest", "pytest-cov"]
-
-[[package]]
 name = "google-api-core"
 version = "2.12.0"
 description = "Google API client core library"
@@ -510,16 +491,6 @@ files = [
 pyasn1 = ">=0.4.6,<0.6.0"
 
 [[package]]
-name = "pydotenv"
-version = "0.0.7"
-description = "A libray to write .env files"
-optional = false
-python-versions = "*"
-files = [
-    {file = "pydotenv-0.0.7.tar.gz", hash = "sha256:5f6d78d3a7ed5124d7836bc1beeadd855dab4e2fdbea9338e6ff61dc1e46829f"},
-]
-
-[[package]]
 name = "pyparsing"
 version = "3.1.1"
 description = "pyparsing module - Classes and methods to define and execute parsing grammars"
@@ -532,6 +503,20 @@ files = [
 
 [package.extras]
 diagrams = ["jinja2", "railroad-diagrams"]
+
+[[package]]
+name = "python-dotenv"
+version = "1.0.1"
+description = "Read key-value pairs from a .env file and set them as environment variables"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "python-dotenv-1.0.1.tar.gz", hash = "sha256:e324ee90a023d808f1959c46bcbc04446a10ced277783dc6ee09987c37ec10ca"},
+    {file = "python_dotenv-1.0.1-py3-none-any.whl", hash = "sha256:f7b63ef50f1b690dddf550d03497b66d609393b40b564ed0d674909a68ebf16a"},
+]
+
+[package.extras]
+cli = ["click (>=5.0)"]
 
 [[package]]
 name = "requests"
@@ -634,4 +619,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "f56940572c95aa41138265c53c15f8a1c26090bf5d8397164c36b94bf401040c"
+content-hash = "4f474d4e74f2c9d6f5315cd7694da099ed107fec185601d5a0f127e0e373d06f"
