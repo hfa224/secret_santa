@@ -1,7 +1,7 @@
-import smtplib, ssl, os
+"""Encapsulates send email functionality"""
 
-from flask import current_app, flash
-from flask_mail import Mail, Message
+from flask import flash
+from flask_mail import Message
 
 def send_email(flask_mail, recipient_email):
     """
