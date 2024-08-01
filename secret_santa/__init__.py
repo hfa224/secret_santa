@@ -1,5 +1,5 @@
 import os
-
+import dotenv
 from flask import Flask
 
 
@@ -16,6 +16,12 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+        MAIL_SERVER = 'smtp.sendgrid.net',
+        MAIL_PORT = 587,
+        MAIL_USE_TLS = True,
+        MAIL_USERNAME = 'apikey',
+        MAIL_PASSWORD = os.environ.get('SENDGRID_API_KEY'),
+        MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
     )
 
     if test_config is None:
