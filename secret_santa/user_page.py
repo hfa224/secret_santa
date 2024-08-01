@@ -1,30 +1,38 @@
+"""This page serves up the user page endpoints"""
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for, current_app
+    Blueprint,
+    flash,
+    g,
+    redirect,
+    render_template,
+    request,
+    url_for,
+    current_app,
 )
 from werkzeug.exceptions import abort
 from flask_mail import Mail, Message
 
 from secret_santa.auth import login_required
 from secret_santa.db import get_db
-
-from email.message import EmailMessage
+from emails import send_email
 
 # no url prefix parameter, so this is the default page
-bp = Blueprint('user_page', __name__)
+bp = Blueprint("user_page", __name__)
 
-@bp.route('/')
+
+@bp.route("/")
 def index():
     """
     This is the view that displays a user their info
     """
-    db = get_db()
-    if (g.user):
-        user_info = get_user(g.user['id'])
+    if g.user:
+        user_info = get_user(g.user["id"])
     else:
         user_info = None
-    return render_template('user_page/index.html', user_info=user_info)
+    return render_template("user_page/index.html", user_info=user_info)
 
-@bp.route('/<int:id>/update', methods=('GET', 'POST'))
+
+@bp.route("/<int:id>/update", methods=("GET", "POST"))
 @login_required
 def update(id):
     """
@@ -32,12 +40,12 @@ def update(id):
     """
     user = get_user(id)
 
-    if request.method == 'POST':
-        address = request.form['address']
-        dietary_info = request.form['dietary_info']
+    if request.method == "POST":
+        address = request.form["address"]
+        dietary_info = request.form["dietary_info"]
         error = None
 
-        #if not title:
+        # if not title:
         #    error = 'Title is required.'
 
         if error is not None:
@@ -45,61 +53,67 @@ def update(id):
         else:
             db = get_db()
             db.execute(
-                'UPDATE user SET address = ?, dietary_info = ?'
-                ' WHERE id = ?',
-                (address, dietary_info, id)
+                "UPDATE user SET address = ?, dietary_info = ?" " WHERE id = ?",
+                (address, dietary_info, id),
             )
             db.commit()
-            return redirect(url_for('user_page.index'))
+            return redirect(url_for("user_page.index"))
 
-    return render_template('user_page/update.html', user=user)
+    return render_template("user_page/update.html", user=user)
 
-@bp.route('/<int:id>/delete', methods=('POST',))
+
+@bp.route("/<int:id>/delete", methods=("POST",))
 @login_required
 def delete(id):
     get_user(id)
     db = get_db()
-    db.execute('DELETE FROM user WHERE id = ?', (id,))
+    db.execute("DELETE FROM user WHERE id = ?", (id,))
     db.commit()
-    return redirect(url_for('auth.logout'))
+    return redirect(url_for("auth.logout"))
 
-@bp.route('/<int:id>/sendinfo', methods=('POST',))
+
+@bp.route("/<int:id>/sendinfo", methods=("POST",))
 @login_required
 def send_info(id):
     user = get_user(id)
 
-    name = user['username']
-    email = user['email']
-    address = user['address']
-    dietary_info = user['dietary_info']
+    name = user["username"]
+    email = user["email"]
+    address = user["address"]
+    dietary_info = user["dietary_info"]
 
-    
     mail = Mail(current_app)
 
     recipient = email
-    msg = Message('Twilio SendGrid Test Email', recipients=[recipient])
-    msg.body = ('Congratulations! You have sent a test email with '
-                'Twilio SendGrid!')
-    msg.html = ('<h1>Twilio SendGrid Test Email</h1>'
-                '<p>Congratulations! You have sent a test email with '
-                '<b>Twilio SendGrid</b>!</p>')
+    msg = Message("Twilio SendGrid Test Email", recipients=[recipient])
+    msg.body = "Congratulations! You have sent a test email with " "Twilio SendGrid!"
+    msg.html = (
+        "<h1>Twilio SendGrid Test Email</h1>"
+        "<p>Congratulations! You have sent a test email with "
+        "<b>Twilio SendGrid</b>!</p>"
+    )
     mail.send(msg)
-    flash(f'A test message was sent to {recipient}.')
+    flash(f"A test message was sent to {recipient}.")
 
-    print(email)
+    send_email(mail, email)
 
-    return render_template('user_page/index.html', user_info=user)
+    return render_template("user_page/index.html", user_info=user)
+
 
 def get_user(id):
     """
     Get user information given the user id
     """
-    user = get_db().execute(
-        'SELECT u.id, username, email, address, dietary_info'
-        ' FROM user u'
-        ' WHERE u.id = ?',
-        (id,)
-    ).fetchone()
+    user = (
+        get_db()
+        .execute(
+            "SELECT u.id, username, email, address, dietary_info"
+            " FROM user u"
+            " WHERE u.id = ?",
+            (id,),
+        )
+        .fetchone()
+    )
 
     if user is None:
         abort(404, f"User id {id} doesn't exist.")
