@@ -1,4 +1,4 @@
-
+"""This script can be run to add an admin user to the database"""
 import emails
 
 port = 465  # For SSL
