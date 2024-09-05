@@ -1,9 +1,16 @@
-import smtplib, ssl, os
+"""
+Sending emails methods
+"""
+import smtplib
+import ssl
 
 from flask import current_app
 
 
 def send_email_defaults(reciever_email, message):
+    """
+    Send email with default parameters
+    """
     port = current_app.config["MAIL_PORT"]  # For SSL
     password = current_app.config["MAIL_PASSWORD"]
 
@@ -16,7 +23,9 @@ def send_email_defaults(reciever_email, message):
 
 
 def send_email(port, password, receiver_email, message):
-
+    """
+    Send email
+    """
     # Create a secure SSL context
     context = ssl.create_default_context()
     #smtp_server = "smtp.gmail.com"

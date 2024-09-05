@@ -1,4 +1,7 @@
-import emails
+"""
+Simple script to use emails file to send an email, for testing
+"""
+from emails import send_email
 
 PORT = 465  # For SSL
 password = input("Type your password and press enter: ")
@@ -10,4 +13,4 @@ Subject: Hi there
 
 This message is sent from Python."""
 
-emails.send_email(PORT, password, receiver_email, MESSAGE)
+send_email(PORT, password, receiver_email, MESSAGE)

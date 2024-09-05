@@ -1,10 +1,11 @@
+"""
+Contains db functionality
+"""
 import sqlite3
 
 import click
 from flask import current_app, g
-
-
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import generate_password_hash
 
 
 @click.command("init-db")
@@ -92,7 +93,7 @@ def get_db():
     return g.db
 
 
-def close_db(e=None):
+def close_db():
     """
     If the connection was created, close it
     """

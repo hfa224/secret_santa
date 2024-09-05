@@ -56,7 +56,7 @@ def update(user_id):
         else:
             db = get_db()
             db.execute(
-                "UPDATE user SET address = ?, dietary_info = ?" " WHERE id = ?",
+                "UPDATE user SET address = ?, dietary_info = ?", " WHERE id = ?",
                 (address, dietary_info, user_id),
             )
             db.commit()
@@ -123,8 +123,8 @@ def get_user(user_id):
     user = (
         get_db()
         .execute(
-            "SELECT u.id, username, email, address, dietary_info"
-            " FROM user u"
+            "SELECT u.id, username, email, address, dietary_info",
+            " FROM user u",
             " WHERE u.id = ?",
             (user_id,),
         )

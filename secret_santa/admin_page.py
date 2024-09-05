@@ -1,11 +1,9 @@
-from flask import Blueprint, flash, g, redirect, render_template, request, url_for
-from werkzeug.exceptions import abort
-
-from secret_santa.auth import login_required
+"""
+This is the view that lets an admin add an event
+"""
 from secret_santa.db import get_db
-from secret_santa.emails import send_email
-
 from secret_santa.user_page import get_user
+from flask import Blueprint, g, render_template
 
 # no url prefix parameter, so this is the default page
 bp = Blueprint("admin_page", __name__, url_prefix="/admin")
@@ -32,7 +30,7 @@ def get_events():
     """
     Get user information given the user id
     """
-    event_info = get_db().execute("SELECT *" " FROM event_info;").fetchall()
+    event_info = get_db().execute("SELECT *", " FROM event_info;").fetchall()
 
     # if user is None:
     #    abort(404, f"User id {id} doesn't exist.")
@@ -44,7 +42,7 @@ def add_event():
     """
     Add an event
     """
-    event_info = get_db().execute("SELECT *" " FROM event_info;").fetchall()
+    event_info = get_db().execute("SELECT *", " FROM event_info;").fetchall()
 
     # if user is None:
     #    abort(404, f"User id {id} doesn't exist.")
