@@ -1,3 +1,10 @@
+"""
+Provides endpoints for the user page
+"""
+from email.message import EmailMessage
+from secret_santa.auth import login_required
+from secret_santa.db import get_db
+from secret_santa.emails import send_email
 from flask import (
     Blueprint,
     flash,
@@ -9,11 +16,6 @@ from flask import (
     current_app,
 )
 from werkzeug.exceptions import abort
-
-from email.message import EmailMessage
-from secret_santa.auth import login_required
-from secret_santa.db import get_db
-from secret_santa.emails import send_email
 
 
 # no url prefix parameter, so this is the default page
@@ -33,13 +35,13 @@ def index():
     return render_template("user_page/index.html", user_info=user_info)
 
 
-@bp.route("/<int:id>/update", methods=("GET", "POST"))
+@bp.route("/<int:user_id>/update", methods=("GET", "POST"))
 @login_required
-def update(id):
+def update(user_id):
     """
     This is the view where the user can update their user info
     """
-    user = get_user(id)
+    user = get_user(user_id)
 
     if request.method == "POST":
         address = request.form["address"]
@@ -55,7 +57,7 @@ def update(id):
             db = get_db()
             db.execute(
                 "UPDATE user SET address = ?, dietary_info = ?" " WHERE id = ?",
-                (address, dietary_info, id),
+                (address, dietary_info, user_id),
             )
             db.commit()
             return redirect(url_for("user_page.index"))
@@ -63,7 +65,7 @@ def update(id):
     return render_template("user_page/update.html", user=user)
 
 
-@bp.route("/<int:id>/delete", methods=("POST",))
+@bp.route("/<int:user_id>/delete", methods=("POST",))
 @login_required
 def delete(user_id):
     """
@@ -76,7 +78,7 @@ def delete(user_id):
     return redirect(url_for("auth.logout"))
 
 
-@bp.route("/<int:id>/sendinfo", methods=("POST",))
+@bp.route("/<int:user_id>/sendinfo", methods=("POST",))
 @login_required
 def send_info(user_id):
     """

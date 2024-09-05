@@ -19,7 +19,7 @@ def send_email(port, password, receiver_email, message):
 
     # Create a secure SSL context
     context = ssl.create_default_context()
-    smtp_server = "smtp.gmail.com"
+    #smtp_server = "smtp.gmail.com"
     sender_email = "testingsanta3@gmail.com"  # Enter your address
 
     print("Calling smtplib")
