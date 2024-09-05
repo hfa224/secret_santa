@@ -1,5 +1,4 @@
 import os
-import dotenv
 from flask import Flask
 
 
