@@ -1,4 +1,6 @@
-"""This page serves up auth functions"""
+"""
+Contains login functionality
+"""
 import functools
 
 from flask import (
