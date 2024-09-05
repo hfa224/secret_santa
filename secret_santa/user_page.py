@@ -1,10 +1,6 @@
 """
 Provides endpoints for the user page
 """
-from email.message import EmailMessage
-from secret_santa.auth import login_required
-from secret_santa.db import get_db
-from secret_santa.emails import send_email
 from flask import (
     Blueprint,
     flash,
@@ -16,6 +12,10 @@ from flask import (
     current_app,
 )
 from werkzeug.exceptions import abort
+from email.message import EmailMessage
+from secret_santa.auth import login_required
+from secret_santa.db import get_db
+from secret_santa.emails import send_email
 
 
 # no url prefix parameter, so this is the default page
