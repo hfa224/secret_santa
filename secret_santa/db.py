@@ -1,4 +1,6 @@
-"""This page provides database functionality"""
+"""
+Contains db functionality
+"""
 import sqlite3
 import click
 from flask import current_app, g
@@ -8,7 +10,8 @@ from werkzeug.security import generate_password_hash
 @click.command("init-db")
 def init_db_command():
     """
-    Creates the cli '' command
+    Creates the cli 'init-db' command
+    Clear the existing data and create new tables
     """
 
     # Clear the existing data and create new tables.
@@ -20,6 +23,7 @@ def init_db_command():
 def add_admin_command():
     """
     Creates the cli 'add-admin' command
+    Add admin user to the database.
     """
 
     # Add admin user to the database.

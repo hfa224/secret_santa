@@ -18,7 +18,7 @@
     <input type="submit" value="Save">
   </form>
   <hr>
-  <form action="{{ url_for('user_page.delete', id=user['id']) }}" method="post">
+  <form action="{{ url_for('user_page.delete', user_id=user['id']) }}" method="post">
     <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure? This will delete your account and remove you from the draw.');">
   </form>
 {% endblock %}
