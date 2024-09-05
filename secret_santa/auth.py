@@ -1,3 +1,6 @@
+"""
+Contains login functionality
+"""
 import functools
 
 from flask import (
