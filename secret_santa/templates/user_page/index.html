@@ -1,13 +1,8 @@
 {% extends 'base.html' %}
 
-{% block header %}
-{% block title %}User info{% endblock %}
-{% endblock %}
-
 {% block content %}
 <section>
-  
-  {% if g.user['id'] == user_info['id'] %}
+  {% if g.user and g.user['id'] == user_info['id'] %}
   <table>
     <tbody>
       <tr>
@@ -41,11 +36,6 @@
     <input class="info" type="submit" value="Edit user info">
   </form>
   </div>
-  {% endif %}
-  {% if not g.user or not user_info %}
-  <form action="{{ url_for('auth.register') }}" method="get">
-    <input class="info" type="submit" value="Register">
-  </form>
   {% endif %}
 </section>
 {% endblock %}
