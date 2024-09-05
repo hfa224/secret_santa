@@ -1,12 +1,16 @@
-import os
+""" App entry point """
 
+import os
 from flask import Flask
+from . import db
+from . import auth
+from . import user_page
+from . import admin_page
 
 
 def create_app(test_config=None):
     """
     Create the flask app.
-
     Keyword arguments:
     test_config -- test config, None by default
     """
@@ -38,19 +42,11 @@ def create_app(test_config=None):
     def hello():
         return "Hello, World!"
 
-    from . import db
-
     db.init_app(app)
-
-    from . import auth
 
     app.register_blueprint(auth.bp)
 
-    from . import user_page
-
     app.register_blueprint(user_page.bp)
-
-    from . import admin_page
 
     app.register_blueprint(admin_page.bp)
 

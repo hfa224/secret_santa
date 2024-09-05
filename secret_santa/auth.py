@@ -121,5 +121,6 @@ def register():
 
 @bp.route("/logout")
 def logout():
+    """ Log out the currently logged in user"""
     session.clear()
     return redirect(url_for("index"))

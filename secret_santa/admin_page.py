@@ -16,16 +16,16 @@ def index():
     """
     This is the view that lets an admin add an event
     """
-    db = get_db()
-    isAdmin = g.user["isAdmin"]
+    #db = get_db()
+    is_admin = g.user["isAdmin"]
 
-    if g.user and isAdmin == 1:
+    if g.user and is_admin == 1:
         # get existing events created by the user
         admin_info = get_user(g.user["id"])
-        event_list = get_events(g.user["id"])
+        #event_list = get_events(g.user["id"])
     else:
         admin_info = None
-        event_list = None
+        #event_list = None
     return render_template(
         "admin_page/index.html", admin_info=admin_info, event_list=None
     )
@@ -33,11 +33,11 @@ def index():
 
 @bp.route("/<int:id>/update", methods=("GET", "POST"))
 @login_required
-def update(id):
+def update(user_id):
     """
     This is the view where the user can update their user info
     """
-    user = get_user(id)
+    user = get_user(user_id)
 
     if request.method == "POST":
         address = request.form["address"]
@@ -53,7 +53,7 @@ def update(id):
             db = get_db()
             db.execute(
                 "UPDATE user SET address = ?, dietary_info = ?" " WHERE id = ?",
-                (address, dietary_info, id),
+                (address, dietary_info, user_id),
             )
             db.commit()
             return redirect(url_for("user_page.index"))
@@ -63,21 +63,21 @@ def update(id):
 
 @bp.route("/<int:id>/delete", methods=("POST",))
 @login_required
-def delete(id):
-    get_user(id)
+def delete(user_id):
+    get_user(user_id)
     db = get_db()
-    db.execute("DELETE FROM user WHERE id = ?", (id,))
+    db.execute("DELETE FROM user WHERE id = ?", (user_id,))
     db.commit()
     return redirect(url_for("auth.logout"))
 
 
 @bp.route("/<int:id>/sendinfo", methods=("POST",))
 @login_required
-def send_info(id):
-    user = get_user(id)
+def send_info(user_id):
+    user = get_user(user_id)
 
-    name = user["username"]
-    email = user["email"]
+    #name = user["username"]
+    #email = user["email"]
     address = user["address"]
     dietary_info = user["dietary_info"]
 
@@ -99,7 +99,7 @@ def send_info(id):
     return redirect(url_for("auth.logout"))
 
 
-def get_events(id):
+def get_events(user_id):
     """
     Get user information given the user id
     """
@@ -111,7 +111,7 @@ def get_events(id):
     return event_info
 
 
-def add_event(id):
+def add_event(user_id):
     """
     Add an event
     """
