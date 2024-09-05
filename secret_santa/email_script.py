@@ -1,7 +1,7 @@
 """
 Simple script to use emails file to send an email, for testing
 """
-from emails import send_email
+from secret_santa.emails import send_email
 
 PORT = 465  # For SSL
 password = input("Type your password and press enter: ")
