@@ -2,9 +2,10 @@ import smtplib, ssl, os
 
 from flask import current_app
 
+
 def send_email_defaults(reciever_email, message):
-    port = current_app.config['MAIL_PORT']  # For SSL
-    password = current_app.config['MAIL_PASSWORD']
+    port = current_app.config["MAIL_PORT"]  # For SSL
+    password = current_app.config["MAIL_PASSWORD"]
 
     print(port)
     print(password)
@@ -12,6 +13,7 @@ def send_email_defaults(reciever_email, message):
     print("Sending email to: " + reciever_email)
 
     send_email(port, password, reciever_email, message)
+
 
 def send_email(port, password, receiver_email, message):
 
