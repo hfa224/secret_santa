@@ -1,13 +1,15 @@
 """This module creates and runs a secret santa app"""
 import os
 from flask import Flask
-from . import db, auth, user_page, admin_page
+from . import db
+from . import auth
+from . import user_page
+from . import admin_page
 
 
 def create_app(test_config=None):
     """
     Create the flask app.
-
     Keyword arguments:
     test_config -- test config, None by default
     """
@@ -48,6 +50,7 @@ def create_app(test_config=None):
     db.init_app(app)
 
     app.register_blueprint(auth.bp)
+
     app.register_blueprint(user_page.bp)
     app.register_blueprint(admin_page.bp)
 
