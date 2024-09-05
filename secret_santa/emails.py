@@ -1,28 +1,19 @@
-import smtplib, ssl, os
+"""Encapsulates send email functionality"""
 
-from flask import current_app
+from flask import flash
+from flask_mail import Message
 
-def send_email_defaults(reciever_email, message):
-    port = current_app.config['MAIL_PORT']  # For SSL
-    password = current_app.config['MAIL_PASSWORD']
-
-    print(port)
-    print(password)
-
-    print("Sending email to: " + reciever_email)
-
-    send_email(port, password, reciever_email, message)
-
-def send_email(port, password, receiver_email, message):
-
-    # Create a secure SSL context
-    context = ssl.create_default_context()
-    smtp_server = "smtp.gmail.com"
-    sender_email = "testingsanta3@gmail.com"  # Enter your address
-
-    print("Calling smtplib")
-
-    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-        server.login("testingsanta3@gmail.com", password)
-        server.set_debuglevel(1)
-        print(server.sendmail(sender_email, receiver_email, message))
+def send_email(flask_mail, recipient_email):
+    """
+    Method that sends an email using flask_mail to recipient email
+    """
+    recipient = recipient_email
+    msg = Message("Twilio SendGrid Test Email", recipients=[recipient])
+    msg.body = "Congratulations! You have sent a test email with " "Twilio SendGrid!"
+    msg.html = (
+        "<h1>Twilio SendGrid Test Email</h1>"
+        "<p>Congratulations! You have sent a test email with "
+        "<b>Twilio SendGrid</b>!</p>"
+    )
+    flask_mail.send(msg)
+    flash(f"A test message was sent to {recipient}.")
