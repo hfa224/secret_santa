@@ -102,3 +102,5 @@ def close_db(e=None):
 
     if db is not None:
         db.close()
+    if e is not None:
+        print(e)
