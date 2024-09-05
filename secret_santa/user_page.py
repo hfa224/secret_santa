@@ -1,4 +1,5 @@
 """This page serves up the user page endpoints"""
+
 from flask import (
     Blueprint,
     flash,
@@ -14,7 +15,6 @@ from flask_mail import Mail, Message
 
 from secret_santa.auth import login_required
 from secret_santa.db import get_db
-from secret_santa.emails import send_email
 
 # no url prefix parameter, so this is the default page
 bp = Blueprint("user_page", __name__)
@@ -92,16 +92,24 @@ def send_info(user_id):
 
     recipient = email
     msg = Message("Twilio SendGrid Test Email", recipients=[recipient])
-    msg.body = "Hello" + name + ", your address is " + address + ", and your dietary requirements are " + dietary_info + "."
-    #msg.html = (
+    msg.body = (
+        "Hello"
+        + name
+        + ", your address is "
+        + address
+        + ", and your dietary requirements are "
+        + dietary_info
+        + "."
+    )
+    # msg.html = (
     #    "<h1>Twilio SendGrid Test Email</h1>"
     #    "<p>Congratulations! You have sent a test email with "
     #    "<b>Twilio SendGrid</b>!</p>"
-    #)
+    # )
     mail.send(msg)
     flash(f"A test message was sent to {recipient}.")
 
-    #send_email(mail, email)
+    # send_email(mail, email)
 
     return render_template("user_page/index.html", user_info=user)
 
