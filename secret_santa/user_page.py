@@ -32,7 +32,7 @@ def index():
     return render_template("user_page/index.html", user_info=user_info)
 
 
-@bp.route("/<int:id>/update", methods=("GET", "POST"))
+@bp.route("/<int:user_id>/update", methods=("GET", "POST"))
 @login_required
 def update(user_id):
     """
@@ -53,8 +53,8 @@ def update(user_id):
         else:
             db = get_db()
             db.execute(
-                "UPDATE user SET address = ?, dietary_info = ?" " WHERE id = ?",
-                (address, dietary_info, id),
+                "UPDATE user SET address = ?, dietary_info = ? WHERE id = ?",
+                (address, dietary_info, user_id),
             )
             db.commit()
             return redirect(url_for("user_page.index"))
@@ -62,7 +62,7 @@ def update(user_id):
     return render_template("user_page/update.html", user=user)
 
 
-@bp.route("/<int:id>/delete", methods=("POST",))
+@bp.route("/<int:user_id>/delete", methods=("POST",))
 @login_required
 def delete(user_id):
     """
@@ -75,7 +75,7 @@ def delete(user_id):
     return redirect(url_for("auth.logout"))
 
 
-@bp.route("/<int:id>/sendinfo", methods=("POST",))
+@bp.route("/<int:user_id>/sendinfo", methods=("POST",))
 @login_required
 def send_info(user_id):
     """
@@ -93,15 +93,15 @@ def send_info(user_id):
     recipient = email
     msg = Message("Twilio SendGrid Test Email", recipients=[recipient])
     msg.body = "Hello" + name + ", your address is " + address + ", and your dietary requirements are " + dietary_info + "."
-    msg.html = (
-        "<h1>Twilio SendGrid Test Email</h1>"
-        "<p>Congratulations! You have sent a test email with "
-        "<b>Twilio SendGrid</b>!</p>"
-    )
+    #msg.html = (
+    #    "<h1>Twilio SendGrid Test Email</h1>"
+    #    "<p>Congratulations! You have sent a test email with "
+    #    "<b>Twilio SendGrid</b>!</p>"
+    #)
     mail.send(msg)
     flash(f"A test message was sent to {recipient}.")
 
-    send_email(mail, email)
+    #send_email(mail, email)
 
     return render_template("user_page/index.html", user_info=user)
 
