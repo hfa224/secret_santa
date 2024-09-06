@@ -1,23 +1,41 @@
 {% extends 'base.html' %}
 
-{% block header %}
-  <h1>{% block title %}User info{% endblock %}</h1>
-{% endblock %}
-
 {% block content %}
-    {% if not g.user or not user_info %}
-    <a class="action" href="{{ url_for('auth.register') }}">Register</a>
-    {% else  %}
-    <article class="post">
-      <header>
-        {% if g.user['id'] == user_info['id'] %}
-          <form action="{{ url_for('user_page.send_info', id=user_info['id']) }}" method="post">
-            <input class="info" type="submit" value="Send email" onclick="return confirm('Click to send yourself a reminder email.');">
-          </form>
-          <a class="action" href="{{ url_for('user_page.update', id=user_info['id']) }}">Edit</a>
-        {% endif %}
-      </header>
-      <p class="body">Username: {{ user_info['username'] }}, Email: {{user_info['email']}}, Address: {{user_info['address']}}, Dietary info: {{user_info['dietary_info'] }}</p>
-    </article>
-    {% endif  %}
+<section>
+  {% if g.user and g.user['id'] == user_info['id'] %}
+  <table>
+    <tbody>
+      <tr>
+        <td>Username</td>
+        <td>{{ user_info['username'] }}</td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td>{{user_info['email']}}</td>
+      </tr>
+      <tr>
+        <td>Address</td>
+        <td>{{user_info['address']}}</td>
+      </tr>
+      <tr>
+        <td>Dietary info</td>
+        <td>{{user_info['dietary_info'] }}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+<section>
+  <div style="width:50%; float: left;">
+  <form action="{{ url_for('user_page.send_info', user_id=user_info['id']) }}" method="post">
+    <input class="info" type="submit" value="Send email"
+      onclick="return confirm('Click to send yourself a reminder email.');">
+  </form>
+  </div>
+  <div style="width:50%; float:right;">
+  <form action="{{ url_for('user_page.update', user_id=user_info['id']) }}" method="get">
+    <input class="info" type="submit" value="Edit user info">
+  </form>
+  </div>
+  {% endif %}
+</section>
 {% endblock %}
