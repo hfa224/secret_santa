@@ -1,5 +1,5 @@
 """
-This is the view that lets an admin add an event
+This is the view that lets an admin add an event. Make a change.
 """
 from flask import Blueprint, g, render_template
 from secret_santa.db import get_db
